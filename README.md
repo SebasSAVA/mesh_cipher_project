@@ -11,8 +11,13 @@ Para ejecutar la aplicación correctamente, asegúrate de tener instalada la ver
 Primero, clona este repositorio en tu máquina local:
 
 ```bash
-git clone https://github.com/tuusuario/MESH.git
-cd MESH
+git clone https://github.com/SebasSAVA/mesh_cipher_project.git
+```
+
+ingresamos a la carpeta del proyecto
+
+```bash
+cd mesh_cipher_project
 ```
 
 Luego, instala las dependencias necesarias ejecutando el siguiente comando:
