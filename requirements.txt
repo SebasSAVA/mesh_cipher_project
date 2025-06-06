@@ -1,0 +1,10 @@
+pycryptodome    # para usar ChaCha20 en pasos posteriores
+pytest          # opcional, para pruebas más avanzadas
+PyQt5
+pytest-qt
+pycryptodome
+
+#pandas 
+#matplotlib 
+#numpy
+#seaborn 
