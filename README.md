@@ -35,3 +35,16 @@ Una vez que hayas instalado todas las dependencias, puedes ejecutar la aplicaci�
 ```bash
 python run.py
 ```
+
+![Escenario de cifrado](Images/Escenario%20de%20cifrado.png)
+![Escenario de descifrado](Images/Escenario%20de%20descifrado.png)
+
+# Ejecución en un ChatBot de Telegram
+
+Para probar la encriptación en un chatbot de Telegram, puedes interactuar con el siguiente bot:
+
+```bash
+@Cry_MESH_bot
+```
+
+![Cifrado en Bot de Telegram](Images/Cifrado%20en%20Bot%20de%20Telegram.jpg)
