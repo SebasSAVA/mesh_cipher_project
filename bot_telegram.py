@@ -18,23 +18,9 @@ async def start(update: Update, context: CallbackContext) -> None:
     )
 
 async def handle_message(update: Update, context: CallbackContext) -> None:
-    incoming_message = update.message.text.strip().lower()
-
-    # Si el usuario decide cifrar o descifrar
-    if incoming_message == "cifrar":
-        await update.message.reply_text('Por favor, envíame el mensaje que deseas cifrar.')
-        context.user_data['action'] = 'cifrar'  # Guardamos la acción seleccionada
-        return  # Terminamos esta función y esperamos el siguiente mensaje
-
-    elif incoming_message == "descifrar":
-        await update.message.reply_text('Por favor, envíame el mensaje cifrado que deseas descifrar.')
-        context.user_data['action'] = 'descifrar'  # Guardamos la acción seleccionada
-        return  # Terminamos esta función y esperamos el siguiente mensaje
-
-async def handle_text(update: Update, context: CallbackContext) -> None:
     user_message = update.message.text.strip()
 
-    # A partir de ahora, no verificamos si 'action' existe, ya que el usuario selecciona entre "Cifrar" o "Descifrar" antes de enviar el mensaje.
+    # Verificar el estado de la acción
     action = context.user_data.get('action')
 
     if action == 'cifrar':
@@ -75,6 +61,21 @@ async def handle_text(update: Update, context: CallbackContext) -> None:
             await update.message.reply_text(f"Error: {str(e)}")
         context.user_data.clear()  # Limpiar la información después del descifrado
 
+    else:
+        # Si no hay acción en progreso, debe preguntar la acción a realizar
+        if user_message.lower() == "cifrar":
+            await update.message.reply_text('Por favor, envíame el mensaje que deseas cifrar.')
+            context.user_data['action'] = 'cifrar'
+
+        elif user_message.lower() == "descifrar":
+            await update.message.reply_text('Por favor, envíame el mensaje cifrado que deseas descifrar.')
+            context.user_data['action'] = 'descifrar'
+
+        else:
+            await update.message.reply_text(
+                'Por favor, selecciona una opción válida: "Cifrar" o "Descifrar".'
+            )
+
 # Función principal para iniciar el bot
 def main() -> None:
     """Inicializa el bot y empieza a recibir mensajes."""
@@ -85,9 +86,6 @@ def main() -> None:
 
     # Manejador de mensajes para opciones de cifrado/descifrado
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-
-    # Manejador para texto y clave (cifrado/descifrado)
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
 
     # Empieza el bot
     application.run_polling()  # Llamar directamente a run_polling() sin asyncio.run()
