@@ -80,7 +80,8 @@ async def handle_text(update: Update, context: CallbackContext) -> None:
             await update.message.reply_text(f"Error: {str(e)}")
         context.user_data.clear()  # Limpiar la información después del descifrado
 
-async def main() -> None:
+# Función principal para iniciar el bot
+def main() -> None:
     """Inicializa el bot y empieza a recibir mensajes."""
     application = Application.builder().token(TOKEN).build()
 
@@ -94,10 +95,7 @@ async def main() -> None:
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
 
     # Empieza el bot
-    await application.run_polling()
+    application.run_polling()  # Llamar directamente a run_polling() sin asyncio.run()
 
 if __name__ == '__main__':
-    # Ejecutar el bot sin asyncio.run() para evitar el error de bucle de eventos
-    import asyncio
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    main()
