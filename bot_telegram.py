@@ -4,7 +4,7 @@ from telegram.ext import filters
 from mesh_cipher.core import encrypt, decrypt  # Importa tu algoritmo de cifrado
 
 # Token proporcionado por BotFather
-TOKEN = '8089744390:AAET3NX71VKF7lHyhdlY6_Vx52sWDEG4vPs'
+TOKEN = 'your_bot_token_here'  # Reemplaza con tu token real
 
 # Función que se ejecuta cuando el bot recibe un mensaje
 async def start(update: Update, context: CallbackContext) -> None:
@@ -31,21 +31,16 @@ async def handle_message(update: Update, context: CallbackContext) -> None:
         context.user_data['action'] = 'descifrar'  # Guardamos la acción seleccionada
         return  # Terminamos esta función y esperamos el siguiente mensaje
 
-    else:
-        await update.message.reply_text(
-            'Por favor, elige una opción válida: "Cifrar" o "Descifrar".'
-        )
+    # Ya no necesitamos este else porque ya pedimos la opción al principio.
+    # else:
+    #     await update.message.reply_text(
+    #         'Por favor, elige una opción válida: "Cifrar" o "Descifrar".'
+    #     )
 
 async def handle_text(update: Update, context: CallbackContext) -> None:
     user_message = update.message.text.strip()
 
-    # Verifica si ya se ha seleccionado una acción (cifrar o descifrar)
-    if 'action' not in context.user_data:
-        await update.message.reply_text(
-            'Por favor, primero selecciona una opción: "Cifrar" o "Descifrar".'
-        )
-        return
-
+    # A partir de ahora, no verificamos si 'action' existe, ya que el usuario selecciona entre "Cifrar" o "Descifrar" antes de enviar el mensaje.
     action = context.user_data['action']
 
     if action == 'cifrar':
