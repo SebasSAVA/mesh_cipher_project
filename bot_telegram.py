@@ -1,18 +1,21 @@
-from telegram import Update
+from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackContext
 from telegram.ext import filters
 from mesh_cipher.core import encrypt, decrypt  # Importa tu algoritmo de cifrado
 
 # Token proporcionado por BotFather
-TOKEN = '8089744390:AAET3NX71VKF7lHyhdlY6_Vx52sWDEG4vPs'  # Reemplaza con tu token real
+TOKEN = '8089744390:AAET3NX71VKF7lHyhdlY6_Vx52sWDEG4vPs'
 
 # Función que se ejecuta cuando el bot recibe un mensaje
 async def start(update: Update, context: CallbackContext) -> None:
+    keyboard = [
+        ['Cifrar', 'Descifrar']
+    ]
+    reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
     await update.message.reply_text(
         '¡Hola! ¿Qué deseas hacer?\n'
-        '1. Cifrar un mensaje: Envía "cifrar"\n'
-        '2. Desencriptar un mensaje: Envía "descifrar"\n'
-        'Escribe "cifrar" o "descifrar" para comenzar.'
+        'Selecciona una opción: "Cifrar" o "Descifrar"',
+        reply_markup=reply_markup
     )
 
 async def handle_message(update: Update, context: CallbackContext) -> None:
@@ -27,7 +30,7 @@ async def handle_message(update: Update, context: CallbackContext) -> None:
         context.user_data['action'] = 'descifrar'
     else:
         await update.message.reply_text(
-            'Por favor, elige una opción válida: "cifrar" o "descifrar".'
+            'Por favor, elige una opción válida: "Cifrar" o "Descifrar".'
         )
 
 async def handle_text(update: Update, context: CallbackContext) -> None:
