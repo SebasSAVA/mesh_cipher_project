@@ -3,6 +3,7 @@ pytest          # opcional, para pruebas más avanzadas
 PyQt5
 pytest-qt
 pycryptodome
+python-telegram-bot
 
 #pandas 
 #matplotlib 
