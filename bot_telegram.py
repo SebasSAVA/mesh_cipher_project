@@ -99,4 +99,5 @@ async def main() -> None:
 if __name__ == '__main__':
     # Ejecutar el bot sin asyncio.run() para evitar el error de bucle de eventos
     import asyncio
-    asyncio.get_event_loop().run_until_complete(main())
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
