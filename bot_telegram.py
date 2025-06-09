@@ -31,17 +31,11 @@ async def handle_message(update: Update, context: CallbackContext) -> None:
         context.user_data['action'] = 'descifrar'  # Guardamos la acción seleccionada
         return  # Terminamos esta función y esperamos el siguiente mensaje
 
-    # Ya no necesitamos este else porque ya pedimos la opción al principio.
-    # else:
-    #     await update.message.reply_text(
-    #         'Por favor, elige una opción válida: "Cifrar" o "Descifrar".'
-    #     )
-
 async def handle_text(update: Update, context: CallbackContext) -> None:
     user_message = update.message.text.strip()
 
     # A partir de ahora, no verificamos si 'action' existe, ya que el usuario selecciona entre "Cifrar" o "Descifrar" antes de enviar el mensaje.
-    action = context.user_data['action']
+    action = context.user_data.get('action')
 
     if action == 'cifrar':
         # Almacenar el mensaje y pedir la clave
@@ -89,10 +83,10 @@ def main() -> None:
     # Comando /start
     application.add_handler(CommandHandler("start", start))
 
-    # Manejador de mensajes
+    # Manejador de mensajes para opciones de cifrado/descifrado
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
-    # Manejador para texto y clave
+    # Manejador para texto y clave (cifrado/descifrado)
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
 
     # Empieza el bot
