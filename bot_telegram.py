@@ -8,9 +8,8 @@ TOKEN = '8089744390:AAET3NX71VKF7lHyhdlY6_Vx52sWDEG4vPs'
 
 # Función que se ejecuta cuando el bot recibe un mensaje
 async def start(update: Update, context: CallbackContext) -> None:
-    keyboard = [
-        ['Cifrar', 'Descifrar']
-    ]
+    # Crear botones para "Cifrar" y "Descifrar"
+    keyboard = [['Cifrar', 'Descifrar']]
     reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
     await update.message.reply_text(
         '¡Hola! ¿Qué deseas hacer?\n'
