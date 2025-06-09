@@ -4,7 +4,7 @@ from telegram.ext import filters
 from mesh_cipher.core import encrypt, decrypt  # Importa tu algoritmo de cifrado
 
 # Token proporcionado por BotFather
-TOKEN = 'your_bot_token_here'  # Reemplaza con tu token real
+TOKEN = '8089744390:AAET3NX71VKF7lHyhdlY6_Vx52sWDEG4vPs'
 
 # Función que se ejecuta cuando el bot recibe un mensaje
 async def start(update: Update, context: CallbackContext) -> None:
