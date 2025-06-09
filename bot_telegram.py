@@ -23,10 +23,10 @@ async def handle_message(update: Update, context: CallbackContext) -> None:
     # Si el usuario decide cifrar o descifrar
     if incoming_message == "cifrar":
         await update.message.reply_text('Por favor, envíame el mensaje que deseas cifrar.')
-        context.user_data['action'] = 'cifrar'
+        context.user_data['action'] = 'cifrar'  # Guardamos la acción seleccionada
     elif incoming_message == "descifrar":
         await update.message.reply_text('Por favor, envíame el mensaje cifrado que deseas descifrar.')
-        context.user_data['action'] = 'descifrar'
+        context.user_data['action'] = 'descifrar'  # Guardamos la acción seleccionada
     else:
         await update.message.reply_text(
             'Por favor, elige una opción válida: "Cifrar" o "Descifrar".'
