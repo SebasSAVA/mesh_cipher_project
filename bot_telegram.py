@@ -97,5 +97,6 @@ async def main() -> None:
     await application.run_polling()
 
 if __name__ == '__main__':
+    # Ejecutar el bot sin asyncio.run() para evitar el error de bucle de eventos
     import asyncio
-    asyncio.run(main())
+    asyncio.get_event_loop().run_until_complete(main())
