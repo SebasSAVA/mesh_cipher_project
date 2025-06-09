@@ -2,9 +2,31 @@ from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackContext
 from telegram.ext import filters
 from mesh_cipher.core import encrypt, decrypt  # Importa tu algoritmo de cifrado
+import re
+from typing import Tuple
 
 # Token proporcionado por BotFather
 TOKEN = '8089744390:AAET3NX71VKF7lHyhdlY6_Vx52sWDEG4vPs'
+
+# Constantes para validación de la clave
+MIN_KEY_LENGTH = 8
+ALLOWED_KEY_PATTERN = re.compile(r'^[\x20-\x7E]+$')  # ASCII imprimibles (espacio a ~)
+
+def validate_key(key: str) -> Tuple[bool, str]:
+    """Valida que la clave cumpla longitud mínima y caracteres permitidos."""
+    if not key:
+        return False, "⚠️ La clave no puede estar vacía."
+    if len(key) < MIN_KEY_LENGTH:
+        return False, f"⚠️ La clave debe tener al menos {MIN_KEY_LENGTH} caracteres."
+    if not ALLOWED_KEY_PATTERN.match(key):
+        return False, "⚠️ La clave contiene caracteres no permitidos."
+    return True, "✅ Clave válida."
+
+def validate_message(message: str) -> Tuple[bool, str]:
+    """Valida que el mensaje no esté vacío."""
+    if not message:
+        return False, "⚠️ El mensaje no puede estar vacío."
+    return True, "✅ Mensaje válido."
 
 # Función que se ejecuta cuando el bot recibe un mensaje
 async def start(update: Update, context: CallbackContext) -> None:
@@ -42,23 +64,33 @@ async def handle_message(update: Update, context: CallbackContext) -> None:
     elif action == 'esperando_clave_cifrar':
         # La clave para cifrar el mensaje
         clave = user_message
+        is_valid, validation_msg = validate_key(clave)
+        if not is_valid:
+            await update.message.reply_text(validation_msg)
+            return
+
         message = context.user_data['message']
         try:
             encrypted_message = encrypt(message, clave)  # Llamamos a encrypt para cifrar el mensaje
-            await update.message.reply_text(f"Mensaje cifrado: {encrypted_message}")
+            await update.message.reply_text(f"🔒 Mensaje cifrado: {encrypted_message}")
         except Exception as e:
-            await update.message.reply_text(f"Error: {str(e)}")
+            await update.message.reply_text(f"❌ Error: {str(e)}")
         context.user_data.clear()  # Limpiar la información después del cifrado
 
     elif action == 'esperando_clave_descifrar':
         # La clave para descifrar el mensaje
         clave = user_message
+        is_valid, validation_msg = validate_key(clave)
+        if not is_valid:
+            await update.message.reply_text(validation_msg)
+            return
+
         message = context.user_data['message']
         try:
             decrypted_message = decrypt(message, clave)  # Llamamos a decrypt para descifrar el mensaje
-            await update.message.reply_text(f"Mensaje descifrado: {decrypted_message}")
+            await update.message.reply_text(f"🔓 Mensaje descifrado: {decrypted_message}")
         except Exception as e:
-            await update.message.reply_text(f"Error: {str(e)}")
+            await update.message.reply_text(f"❌ Error: {str(e)}")
         context.user_data.clear()  # Limpiar la información después del descifrado
 
     else:
@@ -73,7 +105,7 @@ async def handle_message(update: Update, context: CallbackContext) -> None:
 
         else:
             await update.message.reply_text(
-                'Por favor, selecciona una opción válida: "Cifrar" o "Descifrar".'
+                '⚠️ Por favor, selecciona una opción válida: "Cifrar" o "Descifrar".'
             )
 
 # Función principal para iniciar el bot
