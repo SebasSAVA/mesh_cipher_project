@@ -25,7 +25,7 @@ class PlayfairExtended:
             List[List[int]]: Matriz 256x256 con valores permutados para cifrado.
         """
         base = vigenere_matrix()
-        key = list(self.subkeys[0]) if self.subkeys else [0]
+        key = list(self.subkeys[15]) if self.subkeys else [0]
 
         matrix = []
         for i, row in enumerate(base):

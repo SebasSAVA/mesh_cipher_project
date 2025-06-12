@@ -8,18 +8,11 @@ from typing import Tuple
 # Token proporcionado por BotFather
 TOKEN = '8089744390:AAET3NX71VKF7lHyhdlY6_Vx52sWDEG4vPs'
 
-# Constantes para validación de la clave
-MIN_KEY_LENGTH = 8
-ALLOWED_KEY_PATTERN = re.compile(r'^[\x20-\x7E]+$')  # ASCII imprimibles (espacio a ~)
 
 def validate_key(key: str) -> Tuple[bool, str]:
-    """Valida que la clave cumpla longitud mínima y caracteres permitidos."""
+    """Valida que la clave no esté vacía."""
     if not key:
         return False, "⚠️ La clave no puede estar vacía."
-    if len(key) < MIN_KEY_LENGTH:
-        return False, f"⚠️ La clave debe tener al menos {MIN_KEY_LENGTH} caracteres."
-    if not ALLOWED_KEY_PATTERN.match(key):
-        return False, "⚠️ La clave contiene caracteres no permitidos."
     return True, "✅ Clave válida."
 
 def validate_message(message: str) -> Tuple[bool, str]:

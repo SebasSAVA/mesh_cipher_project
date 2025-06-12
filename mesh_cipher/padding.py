@@ -29,7 +29,7 @@ class CustomPadding:
 
         # Generamos relleno usando XOR de valores fijos con subclave 0
         base_pad = bytes([(i + 1) % 256 for i in range(pad_len)])
-        key = self.subkeys[0] if self.subkeys else bytes([0] * pad_len)
+        key = self.subkeys[7] if self.subkeys else bytes([0] * pad_len)
         # Si subclave es menor que pad_len, repetir subclave
         key_repeated = (key * (pad_len // len(key) + 1))[:pad_len]
         padding = xor_bytes(base_pad, key_repeated)
@@ -56,7 +56,7 @@ class CustomPadding:
         # Estrategia: calculamos posible longitud y verificamos coincidencia
         for pad_len in range(1, block_size + 1):
             base_pad = bytes([(i + 1) % 256 for i in range(pad_len)])
-            key = self.subkeys[0] if self.subkeys else bytes([0] * pad_len)
+            key = self.subkeys[7] if self.subkeys else bytes([0] * pad_len)
             key_repeated = (key * (pad_len // len(key) + 1))[:pad_len]
             expected_pad = xor_bytes(base_pad, key_repeated)
 
